@@ -49,6 +49,7 @@ def main():
     print("🥃 Loading Bourbon...")
     model = bourbon(pretrained=True)
     if torch.cuda.is_available(): model.cuda()
+    elif torch.backends.mps.is_available(): model.to('mps')
     
     # 2. Get Intervals
     intervals = create_date_intervals()

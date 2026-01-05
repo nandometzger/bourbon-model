@@ -282,6 +282,7 @@ def main():
         from hubconf import bourbon
         model = bourbon(pretrained=True)
         if torch.cuda.is_available(): model.cuda()
+        elif torch.backends.mps.is_available(): model.to('mps')
     except Exception as e:
         print(f"Error loading model: {e}")
         import traceback

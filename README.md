@@ -106,6 +106,7 @@ import torch
 # Load Bourbon (pretrained on Rwanda)
 model = torch.hub.load('nandometzger/bourbon', 'bourbon', pretrained=True)
 if torch.cuda.is_available(): model.cuda()
+elif torch.backends.mps.is_available(): model.to('mps')
 ```
 
 ### 2. Run Inference (Two Ways)
