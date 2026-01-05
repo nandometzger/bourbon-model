@@ -51,11 +51,9 @@ class BourbonModel(nn.Module):
         img_norm = normalize_s2(image)
         
         # 2. To Tensor
-        input_tensor = torch.from_numpy(img_norm).float()
-        
-        if torch.cuda.is_available():
-            input_tensor = input_tensor.cuda()
-            self.cuda()
+        # 2. To Tensor
+        device = next(self.core_model.parameters()).device
+        input_tensor = torch.from_numpy(img_norm).float().to(device)
             
         # 3. Handle Ensemble / Batch
         # If input was (T, C, H, W), treat as Ensemble? Or Batch?
