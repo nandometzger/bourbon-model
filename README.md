@@ -11,6 +11,7 @@
 We evaluated **Bourbon** on the Rwanda benchmark, comparing it against state-of-the-art models. Despite being a lightweight, distilled model using only Sentinel-2 imagery, Bourbon outperforms previous baselines, including the original Teacher model (Bag-of-Popcorn), achieving an **R² of 70** and the lowest **MAE (8.3)** and **RMSE (18.9)**.
 
 <img src="assets/benchmark_table.png" alt="Benchmark Table" width="75%">
+
 ## Technical Details
 
 Bourbon is distilled from **Bag-Of-Popcorn**, an ensemble model trained on **only weakly supervised samples** (Census block counts).
