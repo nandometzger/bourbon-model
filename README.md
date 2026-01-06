@@ -1,6 +1,6 @@
 # Bourbon 🥃: Distilled Population Maps
 
-**Bourbon** is a lightweight, distilled version of the [POPCORN](https://github.com/prs-eth/Popcorn) model for population estimation from Sentinel-2 satellite imagery only. By "distilling" over several Bag-Of-Popcorns maps into a compact backbone, Bourbon delivers fast, accurate inference suitable for large-scale mapping. We also provide a all-in-one version of the model the fetches imagery and performs inference in one command.
+**Bourbon** is a lightweight, distilled version of the [POPCORN](https://github.com/prs-eth/Popcorn) model for population estimation from Sentinel-2 satellite imagery only. By "distilling" over several Bag-Of-Popcorn maps into a compact backbone, Bourbon delivers fast, accurate inference suitable for large-scale mapping. We also provide a all-in-one version of the model the fetches imagery and performs inference in one command.
 
 > **Fun Fact:** Why "Bourbon"? Because it's what you get when you distill (Pop)Corn! 🌽➡️🥃
 
