@@ -3,7 +3,6 @@ import argparse
 import numpy as np
 import matplotlib.pyplot as plt
 import torch
-import torch.hub
 import os
 import sys
 import rasterio
@@ -277,10 +276,11 @@ def main():
     
     # 1. Load Model (Bourbon Interface)
     print("Loading Model (Bourbon)...")
-    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+    # Add parent directory to path to allow importing bourbon if not installed
+    sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
     try:
-        from hubconf import bourbon
-        model = bourbon(pretrained=True)
+        from bourbon import load_model
+        model = load_model(pretrained=True)
         if torch.cuda.is_available(): model.cuda()
         elif torch.backends.mps.is_available(): model.to('mps')
     except Exception as e:

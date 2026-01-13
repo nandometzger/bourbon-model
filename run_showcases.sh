@@ -1,6 +1,6 @@
 #!/bin/bash
 PYTHON=/scratch3/metzgern/random/Popcorn/PopMapEnv/bin/python
-SCRIPT=predict_timeseries.py
+SCRIPT=bourbon/predict_timeseries.py
 
 # Format: "lat | lon | size | display_name"
 declare -a locs=(

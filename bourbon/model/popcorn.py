@@ -5,13 +5,11 @@ import torch.nn.functional as F
 import math
 from types import SimpleNamespace
 
-# Import form local networks file
 try:
-    from .networks import DualStreamUNet, LoRAConv2d # LoRAConv2d might need to be moved to networks if reused, or defined here.
-    # Actually LoRAConv2d was in popcorn.py originally. I should keep it here.
+    from .networks import DualStreamUNet
 except ImportError:
-    # Try importing from model.networks if run from root
-    from model.networks import DualStreamUNet
+    # Try importing from model.networks if run from root (fallback)
+    from bourbon.model.networks import DualStreamUNet
 
 # Hardcoded Config matching 'utils.constants'
 stage1feats = 8

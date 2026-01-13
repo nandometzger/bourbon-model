@@ -9,8 +9,9 @@ from datetime import datetime, timedelta
 import pandas as pd
 
 # Load Bourbon
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from hubconf import bourbon
+# Load Bourbon
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from bourbon import load_model
 
 def create_date_intervals(start_year=2016, end_year=2025, months_step=12):
     """Generate 12-month intervals (Yearly)."""
@@ -47,7 +48,7 @@ def main():
     
     # 1. Load Model
     print("🥃 Loading Bourbon...")
-    model = bourbon(pretrained=True)
+    model = load_model(pretrained=True)
     if torch.cuda.is_available(): model.cuda()
     elif torch.backends.mps.is_available(): model.to('mps')
     

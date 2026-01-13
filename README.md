@@ -36,32 +36,28 @@ Bourbon is distilled from **Bag-Of-Popcorn**, an ensemble model trained on **onl
 *   `requirements.txt`: Dependencies.
 
 ## Installation
+You can install **Bourbon** directly from GitHub or local source. This will install all necessary dependencies (Torch, Rasterio, Planetary Computer, etc.).
 
-Please install the dependencies using the following command:
+**Install from GitHub:**
 ```bash
-pip install -r requirements.txt
-```
-
-or use the following commands:
-```bash
-pip install torch numpy matplotlib requests rasterio
+pip install git+https://github.com/nandometzger/bourbon.git
 ```
 
-For fetching satellite imagery, please install the following dependencies. For Microsoft Planetary Computer:
+**Install from Local Source:**
 ```bash
-pip install pystac-client planetary-computer stackstac rioxarray
+git clone https://github.com/nandometzger/bourbon.git
+cd bourbon
+pip install -e .
 ```
-For Google Earth Engine:
-```bash
-pip install earthengine-api
-```
+
+*Note: For Google Earth Engine support, you must also install `earthengine-api` and authenticate (`earthengine authenticate`).*
 
 ## Quick Start (Command Line)
 
 Generate a population map for Kigali, Rwanda:
 
 ```bash
-python predict_from_coords.py \
+bourbon-predict \
   --lat -1.9441 --lon 30.0619 \
   --size 512 \
   --provider mpc \
@@ -78,7 +74,7 @@ Bourbon can track population trends over time by "nowcasting" across satellite a
 
 **Example (2016-2025 growth analysis):**
 ```bash
-python predict_timeseries.py \
+bourbon-timeseries \
   --lat -1.9441 --lon 30.0619 \
   --size_meters 2000 \
   --ensemble 3 \
@@ -101,12 +97,19 @@ Bourbon is designed for simplicity. You can load it and run inference in 3 lines
 ### 1. Load the Model
 
 ```python
+import bourbon
 import torch
 
 # Load Bourbon (pretrained on Rwanda)
+model = bourbon.load_model(pretrained=True)
+if torch.cuda.is_available(): model.cuda() elif torch.backends.mps.is_available(): model.to('mps')
+```
+
+**Alternative (via TorchHub):**
+If you don't want to install the package, you can still use TorchHub (requires dependencies to be installed manually):
+```python
+import torch
 model = torch.hub.load('nandometzger/bourbon', 'bourbon', pretrained=True)
-if torch.cuda.is_available(): model.cuda()
-elif torch.backends.mps.is_available(): model.to('mps')
 ```
 
 ### 2. Run Inference (Two Ways)
@@ -148,60 +151,60 @@ Try Bourbon on interesting urban growth sites with a single command:
 
 **🏙️ Kigali, Rwanda (Modern Development)**
 ```bash
-python predict_timeseries.py --name "Kigali" --lat -1.9470 --lon 30.0740 --size_meters 20000 --vmax 1.5
+bourbon-timeseries --name "Kigali" --lat -1.9470 --lon 30.0740 --size_meters 20000 --vmax 1.5
 ```
 ![Kigali Growth](showcases/Kigali_Rwanda/population_growth.gif)
 
 **🏙️ Bunia, DRC (Urban expansion & Refugee Camp)**
 ```bash
-python predict_timeseries.py --name "Bunia" --lat 1.5573 --lon 30.2412 --size_meters 10000 --vmax 1.0
+bourbon-timeseries --name "Bunia" --lat 1.5573 --lon 30.2412 --size_meters 10000 --vmax 1.0
 ```
 ![Bunia Growth](showcases/Bunia_DRC/population_growth.gif)
 
 **🏙️ Geita, Tanzania (Rapid Growth)**
 ```bash
-python predict_timeseries.py --name "Geita" --lat -2.8778 --lon 32.2301 --size_meters 10000 --vmax 2.0
+bourbon-timeseries --name "Geita" --lat -2.8778 --lon 32.2301 --size_meters 10000 --vmax 2.0
 ```
 ![Geita Growth](showcases/Geita_Tanzania/population_growth.gif)
 
 **🏙️ Gitega, Burundi (Capital Expansion)**
 ```bash
-python predict_timeseries.py --name "Gitega" --lat -3.4278 --lon 29.9248 --size_meters 10000 --vmax 2.0
+bourbon-timeseries --name "Gitega" --lat -3.4278 --lon 29.9248 --size_meters 10000 --vmax 2.0
 ```
 ![Gitega Growth](showcases/Gitega_Burundi/population_growth.gif)
 
 **🏙️ Hoima, Uganda (Oil City)**
 ```bash
-python predict_timeseries.py --name "Hoima" --lat 1.4331 --lon 31.3501 --size_meters 10000 --vmax 2.0
+bourbon-timeseries --name "Hoima" --lat 1.4331 --lon 31.3501 --size_meters 10000 --vmax 2.0
 ```
 ![Hoima Growth](showcases/Hoima_Uganda/population_growth.gif)
 
 **🏙️ Mwanza, Tanzania (Lakeside City)**
 ```bash
-python predict_timeseries.py --name "Mwanza" --lat -2.5178 --lon 32.9018 --size_meters 10000 --vmax 2.0
+bourbon-timeseries --name "Mwanza" --lat -2.5178 --lon 32.9018 --size_meters 10000 --vmax 2.0
 ```
 ![Mwanza Growth](showcases/Mwanza_Tanzania/population_growth.gif)
 
 **⛺ Nakivale, Uganda (Refugee Settlement)**
 ```bash
-python predict_timeseries.py --name "Nakivale" --lat -0.7783 --lon 30.9471 --size_meters 5000 --vmax 2.0
+bourbon-timeseries --name "Nakivale" --lat -0.7783 --lon 30.9471 --size_meters 5000 --vmax 2.0
 ```
 ![Nakivale Growth](showcases/Nakivale_Uganda/population_growth.gif)
 
 **⛺ Goma, DRC (Refugee Camp 1 - Cloudy)**
 ```bash
-python predict_timeseries.py --name "Goma Camp 1" --lat -1.5987 --lon 29.1728 --size_meters 3000 --vmax 2.0
+bourbon-timeseries --name "Goma Camp 1" --lat -1.5987 --lon 29.1728 --size_meters 3000 --vmax 2.0
 ```
 ![Goma Camp 1](showcases/Goma_Refugee_Camp_1_DRC/population_growth.gif)
 
 **⛺ Goma, DRC (Refugee Camp 2 - Cloudy)**
 ```bash
-python predict_timeseries.py --name "Goma Camp 2" --lat -1.6172 --lon 29.2380 --size_meters 3000 --vmax 2.0
+bourbon-timeseries --name "Goma Camp 2" --lat -1.6172 --lon 29.2380 --size_meters 3000 --vmax 2.0
 ```
 ![Goma Camp 2](showcases/Goma_Refugee_Camp_2_DRC/population_growth.gif)
 
 **🏙️ Musanze, Rwanda**
 ```bash
-python predict_timeseries.py --name "Musanze" --lat -1.5009 --lon 29.6290 --size_meters 10000 --vmax 2.0
+bourbon-timeseries --name "Musanze" --lat -1.5009 --lon 29.6290 --size_meters 10000 --vmax 2.0
 ```
 ![Musanze Growth](showcases/Musanze_Rwanda/population_growth.gif)

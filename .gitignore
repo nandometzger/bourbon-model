@@ -6,3 +6,9 @@ showcases/
 *.zip
 *.pth
 .DS_Store
+
+# Packaging
+test_env/
+build/
+dist/
+*.egg-info/
