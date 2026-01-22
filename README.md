@@ -14,7 +14,10 @@ We evaluated **Bourbon** on the Rwanda benchmark, comparing it against state-of-
 
 ## Technical Details
 
-Bourbon is distilled from **Bag-Of-Popcorn**, an ensemble model trained on **only weakly supervised samples** (Census block counts).
+![Bourbon Distillation Process](assets/bourbon_distillation.jpg)
+
+Bourbon is a distillation framework that is  agnostic to the choice of teacher model. While it could be trained to mimic any high-quality population density source, in this implementation, we use our predecessor project, Bag-Of-Popcorn, as the teacher.
+
 
 1.  **Teacher Model (Bag-Of-Popcorn)**:
     *   **Ensemble**: We aggregate predictions from 5 distinct ensemble members.
